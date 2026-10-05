@@ -1,0 +1,28 @@
+﻿@model EtkinlikAnketSistemi.Models.EventSurvey
+
+@{
+    ViewData["Title"] = "Etkinlik Sil";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Etkinlik Sil</h2>
+
+    <div class="alert alert-warning mt-3">
+        Bu etkinliği silmek istediğinize emin misiniz?
+    </div>
+
+    <div class="card shadow-sm border-0 mt-3">
+        <div class="card-body">
+            <p><strong>Program:</strong> @Model.ProgramName</p>
+            <p><strong>Etkinlik:</strong> @Model.EventTitle</p>
+            <p><strong>Tarih:</strong> @Model.EventDate.ToShortDateString()</p>
+            <p><strong>Durum:</strong> @(Model.IsActive ? "Aktif" : "Pasif")</p>
+        </div>
+    </div>
+
+    <form asp-action="Delete" method="post" class="mt-3">
+        <input asp-for="Id" type="hidden" />
+        <button type="submit" class="btn btn-danger">Evet, Sil</button>
+        <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+    </form>
+</div>

@@ -1,0 +1,47 @@
+﻿@model EtkinlikAnketSistemi.Models.SurveyQuestion
+
+@{
+    ViewData["Title"] = "Yeni Soru";
+}
+
+<div class="container mt-4">
+    <h2>Yeni Soru Ekle</h2>
+    <p><strong>Etkinlik:</strong> @ViewBag.EventTitle</p>
+
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <form asp-action="Create" method="post">
+        <input asp-for="EventSurveyId" type="hidden" />
+
+        <div class="mb-3">
+            <label asp-for="QuestionText" class="form-label">Soru Metni</label>
+            <textarea asp-for="QuestionText" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="QuestionText" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="QuestionType" class="form-label">Soru Tipi</label>
+            <select asp-for="QuestionType" class="form-select">
+                <option value="">Seçiniz</option>
+                <option value="Likert">Likert</option>
+                <option value="Text">Text</option>
+            </select>
+            <span asp-validation-for="QuestionType" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DisplayOrder" class="form-label">Sıralama</label>
+            <input asp-for="DisplayOrder" class="form-control" />
+            <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a asp-action="Index" asp-route-eventSurveyId="@Model.EventSurveyId" class="btn btn-secondary">Geri</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

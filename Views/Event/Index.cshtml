@@ -1,0 +1,138 @@
+﻿@model List<EtkinlikAnketSistemi.Models.EventSurvey>
+
+@{
+    ViewData["Title"] = "Etkinlikler";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="page-title mb-1">Etkinlikler</h2>
+        <p class="page-subtitle">Oluşturulan anket etkinliklerini buradan yönetebilirsiniz.</p>
+    </div>
+
+    <a asp-action="Create" class="btn custom-btn-primary">+ Yeni Etkinlik</a>
+</div>
+
+<div class="app-card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-modern align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Program</th>
+                        <th>Etkinlik</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th style="width: 430px;">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            var surveyUrl = $"{Context.Request.Scheme}://{Context.Request.Host}/Survey/Fill?id={item.Id}";
+
+                            <tr>
+                                <td>@item.ProgramName</td>
+                                <td>@item.EventTitle</td>
+                                <td>@item.EventDate.ToShortDateString()</td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge-soft-success">Aktif</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-soft-secondary">Pasif</span>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a asp-controller="Question"
+                                           asp-action="Index"
+                                           asp-route-eventSurveyId="@item.Id"
+                                           class="btn btn-sm btn-outline-primary custom-btn-outline">
+                                            Soruları Yönet
+                                        </a>
+
+                                        <a asp-controller="Report"
+                                           asp-action="Index"
+                                           asp-route-eventSurveyId="@item.Id"
+                                           class="btn btn-sm btn-success">
+                                            Rapor
+                                        </a>
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-warning">
+                                            Düzenle
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-sm btn-danger">
+                                            Sil
+                                        </a>
+
+                                        <button type="button"
+                                                class="btn btn-sm btn-info text-white"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#shareModal_@item.Id">
+                                            Anket Linki
+                                        </button>
+                                    </div>
+
+                                    <div class="modal fade" id="shareModal_@item.Id" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content" style="border-radius:20px;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Anket Linki</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="modal-link-text mb-2">
+                                                        Aşağıdaki linki öğrencilerle paylaşabilirsiniz:
+                                                    </p>
+
+                                                    <div class="copy-box mb-3" id="surveyLinkText_@item.Id">@surveyUrl</div>
+
+                                                    <div class="d-grid">
+                                                        <button type="button"
+                                                                class="btn custom-btn-primary"
+                                                                onclick="copySurveyLink('@item.Id')">
+                                                            Linki Kopyala
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center">Henüz etkinlik eklenmemiş.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copySurveyLink(id) {
+            const text = document.getElementById('surveyLinkText_' + id).innerText;
+            navigator.clipboard.writeText(text).then(function () {
+                alert('Anket linki kopyalandı.');
+            }).catch(function () {
+                alert('Link kopyalanamadı. Lütfen manuel olarak kopyalayın.');
+            });
+        }
+    </script>
+}

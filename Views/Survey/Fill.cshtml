@@ -1,0 +1,92 @@
+﻿@model EtkinlikAnketSistemi.Models.SurveyFillViewModel
+
+@{
+    ViewData["Title"] = "Anket Formu";
+    var likertOptions = new List<string>
+    {
+        "Kesinlikle Katılıyorum",
+        "Katılıyorum",
+        "Kararsızım",
+        "Katılmıyorum",
+        "Kesinlikle Katılmıyorum"
+    };
+}
+
+<div class="survey-shell mt-4 mb-5">
+
+    <div class="survey-header-card">
+        <span class="survey-header-badge">Katılımcı Anketi</span>
+        <h2 class="page-title mb-2">@Model.ProgramName</h2>
+        <h4 class="mb-2">@Model.EventTitle</h4>
+        <p class="page-subtitle mb-2"><strong>Tarih:</strong> @Model.EventDate.ToShortDateString()</p>
+        <p class="mb-0 text-muted">
+            Lütfen aşağıdaki soruları dikkatlice cevaplayınız. Tüm alanların doldurulması beklenmektedir.
+        </p>
+    </div>
+
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+    <form asp-action="Fill" method="post">
+        <input asp-for="EventSurveyId" type="hidden" />
+
+        @for (int i = 0; i < Model.Questions.Count; i++)
+        {
+            <input asp-for="Questions[i].QuestionId" type="hidden" />
+            <input asp-for="Questions[i].QuestionText" type="hidden" />
+            <input asp-for="Questions[i].QuestionType" type="hidden" />
+            <input asp-for="Questions[i].DisplayOrder" type="hidden" />
+
+            <div class="survey-question-card">
+                <div class="card-body">
+                    <div class="survey-question-number">Soru @Model.Questions[i].DisplayOrder</div>
+                    <div class="survey-question-title">@Model.Questions[i].QuestionText</div>
+
+                    @if (Model.Questions[i].QuestionType == "Likert")
+                    {
+                        <div class="d-flex flex-column gap-2">
+                            @foreach (var option in likertOptions)
+                            {
+                                <label class="survey-option-box">
+                                    <div class="form-check mb-0">
+                                        <input class="form-check-input"
+                                               type="radio"
+                                               name="Questions[@i].Answer"
+                                               value="@option"
+                                               @(Model.Questions[i].Answer == option ? "checked" : null) />
+                                        <span class="form-check-label">@option</span>
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                    }
+                    else if (Model.Questions[i].QuestionType == "Text")
+                    {
+                        <textarea asp-for="Questions[i].Answer"
+                                  class="form-control"
+                                  rows="4"
+                                  placeholder="Cevabınızı buraya yazınız..."></textarea>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="survey-submit-box">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div>
+                    <h5 class="mb-1">Formu tamamladıysanız gönderin</h5>
+                    <p class="mb-0 text-muted">Gönderimden sonra cevaplar sisteme kaydedilecektir.</p>
+                </div>
+
+                <button type="submit" class="btn custom-btn-primary px-4">
+                    Anketi Gönder
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

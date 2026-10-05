@@ -1,0 +1,56 @@
+﻿@model EtkinlikAnketSistemi.Models.AdminLoginViewModel
+
+@{
+    ViewData["Title"] = "Admin Giriş";
+}
+
+<div class="login-page">
+    <div class="card login-card">
+        <div class="card-body">
+            <div class="text-center mb-4">
+                <span class="login-badge">Yönetim Paneli</span>
+                <h2 class="page-title mb-2">Admin Giriş</h2>
+                <p class="page-subtitle">
+                    Etkinlik anketlerini yönetmek ve raporları görüntülemek için giriş yapın.
+                </p>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">E-posta</label>
+                    <input asp-for="Email" class="form-control" placeholder="admin@example.invalid" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">Şifre</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Şifrenizi girin" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn custom-btn-primary w-100">
+                    Giriş Yap
+                </button>
+            </form>
+
+            <div class="text-center mt-4 footer-note">
+                Web Tabanlı Etkinlik Katılımcı Anket Sistemi
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,15 @@
+.vs/
+bin/
+obj/
+node_modules/
+*.user
+*.log
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+App_Data/
+*.db
+*.sqlite*
+*.bak
+*.sql

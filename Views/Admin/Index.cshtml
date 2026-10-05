@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Admin Paneli";
+}
+
+<div class="dashboard-hero mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+            <h2 class="mb-2">Hoş geldiniz, @Context.Session.GetString("AdminName")</h2>
+            <p>
+                Buradan etkinlik oluşturabilir, anket sorularını yönetebilir ve öğrenci geri bildirim raporlarını inceleyebilirsiniz.
+            </p>
+        </div>
+
+        <div class="d-flex gap-2">
+            <a asp-controller="Event" asp-action="Index" class="btn custom-btn-primary">
+                Etkinlikleri Yönet
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="stat-card p-4">
+            <div class="stat-label">Yönetim Modülü</div>
+            <div class="stat-value">Aktif</div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="stat-card p-4">
+            <div class="stat-label">Anket Sistemi</div>
+            <div class="stat-value">Hazır</div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="stat-card p-4">
+            <div class="stat-label">Raporlama</div>
+            <div class="stat-value">Grafikli</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-7 mb-4">
+        <div class="app-card h-100">
+            <div class="card-body">
+                <h4 class="section-title mb-3">Sistem Özeti</h4>
+                <div class="info-list">
+                    <p>• Yeni etkinlik ve anket oluşturabilirsiniz.</p>
+                    <p>• Her etkinliğe farklı soru tipleri ekleyebilirsiniz.</p>
+                    <p>• Öğrenciler anketi çevrim içi doldurabilir.</p>
+                    <p>• Sonuçlar soru bazlı rapor ve grafik olarak görüntülenebilir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5 mb-4">
+        <div class="app-card h-100">
+            <div class="card-body">
+                <h4 class="section-title mb-3">Hızlı İşlemler</h4>
+
+                <div class="d-grid gap-2">
+                    <a asp-controller="Event" asp-action="Create" class="btn btn-outline-primary custom-btn-outline">
+                        Yeni Etkinlik Oluştur
+                    </a>
+
+                    <a asp-controller="Event" asp-action="Index" class="btn btn-outline-success custom-btn-outline">
+                        Etkinlik Listesine Git
+                    </a>
+
+                    <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger custom-btn-outline">
+                        Güvenli Çıkış Yap
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

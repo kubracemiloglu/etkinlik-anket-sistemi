@@ -1,0 +1,36 @@
+﻿@model EtkinlikAnketSistemi.Models.EventSurvey
+
+@{
+    ViewData["Title"] = "Yeni Etkinlik";
+}
+
+<div class="container mt-4">
+    <h2>Yeni Etkinlik Oluştur</h2>
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label>Program Adı</label>
+            <input asp-for="ProgramName" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Etkinlik Adı</label>
+            <input asp-for="EventTitle" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Tarih</label>
+            <input asp-for="EventDate" type="date" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Aktif mi?</label>
+            <input asp-for="IsActive" type="checkbox" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Kaydet</button>
+        <a asp-action="Index" class="btn btn-secondary">Geri</a>
+
+    </form>
+</div>
